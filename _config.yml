@@ -1,0 +1,25 @@
+project: RFP
+email: artemsheva0510@gmail.com
+description: >-
+  Learn how to integrate functional programming in your Ruby life!
+baseurl: ""
+url: "https://rubyfp.herokuapp.com"
+github_username:  Ar2emis
+
+sass:
+    sass_dir: assets/stylesheets
+    style: compressed
+
+pagination:
+  enabled: true
+  per_page: 3
+  permalink: 'page/:num.html'
+  title: 'Posts - page :num of :max'
+  limit: 0
+  sort_field: 'date'
+  sort_reverse: true
+
+plugins:
+  - jekyll-feed
+  - jekyll-sitemap
+  - jekyll-seo-tag

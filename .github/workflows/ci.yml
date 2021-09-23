@@ -1,0 +1,18 @@
+name: CI
+
+on: [push]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Ruby
+      uses: ruby/setup-ruby@473e4d8fe5dd94ee328fdfca9f8c9c7afc9dae5e
+      with:
+        bundler-cache: true
+    - name: Run linters
+      run: bundle exec lefthook run pre-commit
+    - name: Run tests
+      run: bundle exec rspec

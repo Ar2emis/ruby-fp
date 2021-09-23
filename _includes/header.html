@@ -1,0 +1,29 @@
+<nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/">
+      <img src="{{ site.baseurl }}/assets/images/ruby.svg" alt="" width="30" height="24" class="d-inline-block align-text-top">
+      {{ site.project }}
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
+      <ul class="navbar-nav">
+        {% for item in site.data.navigation %}
+        <li class="nav-item">
+          <a class={% if page.url == item.link %}
+               "nav-link disabled"
+             {% else %}
+               "nav-link active"
+             {% endif %}
+             aria-current="page" href="{{ item.link }}">
+            {{ item.name }}
+          </a>
+        </li>
+        {% endfor %}
+      </ul>
+      {% include search.html %}
+    </div>
+  </div>
+</nav>

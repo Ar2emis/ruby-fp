@@ -1,0 +1,17 @@
+require:
+  - rubocop-rspec
+
+AllCops:
+  TargetRubyVersion: 2.7.2
+  NewCops: enable
+  SuggestExtensions: false
+
+Layout/LineLength:
+  Max: 120
+
+Style/Documentation:
+  Enabled: false
+
+Metrics/BlockLength:
+  Exclude:
+    - 'rspec/**/*_spec.rb'

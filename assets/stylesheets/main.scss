@@ -1,0 +1,22 @@
+---
+---
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+body {
+  margin-bottom: 60px;
+}
+
+body > .container {
+  padding: 60px 15px 0;
+}
+
+main {
+  margin-bottom: 140px;
+}
+
+@import './footer.scss';
+@import './posts.scss';
+@import './search.scss'
