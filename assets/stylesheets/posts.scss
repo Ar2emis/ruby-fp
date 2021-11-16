@@ -10,3 +10,7 @@
 pre > code {
   border-radius: 10px;
 }
+
+img[src*="#post-img"] {
+  max-width: calc(100vw - 30px);
+}
