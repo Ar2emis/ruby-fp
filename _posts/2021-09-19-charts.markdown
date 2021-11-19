@@ -2,7 +2,7 @@
 layout: default
 title:  "Charts with Ruby and Functional Programming"
 date:   2021-09-20 21:08:48 +0300
-tags: ['jekyll', 'update']
+tags: ['charts', 'graphs', 'gruff']
 image_name: 'charts.jpeg'
 ---
 Hello again! Today we will talk about a rather important topic in programming, namely, the collection of statistics

@@ -2,7 +2,7 @@
 layout: default
 title:  'Ruby language and Mathematic'
 date:   2021-09-19 21:08:48 +0300
-tags: ['jekyll', 'update']
+tags: ['math', 'ruby']
 image_name: 'math.jpeg'
 ---
 Ruby it’s a good choice to solve problems with Maths, because you have a huge library of default methods which can help
