@@ -5,6 +5,7 @@ date:   2021-09-19 21:08:48 +0300
 tags: ['math', 'ruby']
 image_name: 'math.jpeg'
 ---
+# {{page.title}}
 Ruby it’s a good choice to solve problems with Maths, because you have a huge library of default methods which can help
 you to solve more than 99% of common tasks.
 We decided to show you, why ruby - is a programmer best friend, and our first lesson will be about math.
