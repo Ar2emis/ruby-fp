@@ -1,0 +1,141 @@
+---
+layout: default
+title:  "Big data with Ruby. Is it easy?"
+date:   2021-09-20 21:08:48 +0300
+tags: ['big_data']
+image_name: 'big_data.jpeg'
+---
+# {{page.title}}
+Today we are going to take a look at a very interesting topic 'Big data'. Are you wondering if it is possible to work with big data in Ruby? The answer is that Ruby can do absolutely everything!
+
+Also today we will tell you how to work with big data by using the paradigm of functional programming.
+
+Just like last time, you can find the sources [here](https://github.com/Ar2emis/rubyfp-learning/tree/master/big_data).
+
+## CHOOSE FILE
+
+###### 1. First of all, you need a file which u want to process. We can offer you [our example](https://github.com/Ar2emis/rubyfp-learning/blob/master/big_data/iris.csv) which is ideal for beginners to try Ruby in full glory
+###### 2. If you want to upload another file, you need to change it`s name
+
+{% highlight ruby %}
+  FILENAME = 'iris.csv'
+{% endhighlight %}
+
+## DATA PREPARATION
+
+###### 1. Here we can see a method that writes all our data from a file to memory
+
+{% highlight ruby %}
+  data = CSV.read(FILENAME, encoding: 'bom|utf-8', headers: true, converters: :numeric,
+                            header_converters: :symbol)
+{% endhighlight %}
+
+###### 2. Also you can define your custom data converter like this one
+
+{% highlight ruby %}
+  number_rounder = ->(value) { /\d/.match?(value) ? value.to_f.round : value }
+  CSV.read(FILENAME, encoding: 'bom|utf-8', headers: true, converters: [number_rounder],
+                     header_converters: :symbol)
+{% endhighlight %}
+
+###### 3. Here we can see examples of how easy and simple we can get our data.
+
+{% highlight ruby %}
+  # Access column
+  data[:variety] # => ['Setosa', ...]
+
+  # Access row
+  data[0] # => #<CSV::Row sepallength:5.1 sepalwidth:3.5 petallength:1.4 petalwidth:0.2 variety:"Setosa">
+
+  # Access value
+  data[0][:variety] # => 'Setosa'
+  # or
+  data[:variety][0] # => 'Setosa'
+{% endhighlight %}
+
+## DATA FILTERING
+
+###### We can select rows where attribute is equal to a specific value
+
+{% highlight ruby %}
+  data.select { |row| row[:variety] == 'Setosa' }
+  # => [#<CSV::Row sepallength:5.1 sepalwidth:3.5 petallength:1.4 petalwidth:0.2 variety:"Setosa">,..]
+{% endhighlight %}
+
+###### We can reject rows where attribute is equal to a specific value
+
+{% highlight ruby %}
+  data.reject { |row| row[:variety] == 'Setosa' }
+  # => [#<CSV::Row sepallength:5.1 sepalwidth:3.5 petallength:1.4 petalwidth:0.2 variety:"Setosa">,..]
+{% endhighlight %}
+
+## DATA SORTING
+
+###### We can sort rows by specific attribute in ascending or descending order
+
+{% highlight ruby %}
+  # Ascending
+  data.sort_by { |row| row[:sepallength] }
+
+  # Descending
+  data.sort_by { |row| row[:sepallength] }.reverse
+{% endhighlight %}
+
+## DATA GROUPPING
+
+###### We can GROUP our data by specific attribute and as result we get data by groups
+
+{% highlight ruby %}
+  data.group_by { |row| row[:variety] }
+  # => {"Setosa"=> [#<CSV::Row ... variety:"Setosa">, ...],
+  #     "Versicolor"=> [#<CSV::Row ... variety:"Versicolor">, ...],
+  #     "Virginica"=> [#<CSV::Row ... sepvariety:"Virginica">, ...]}
+{% endhighlight %}
+
+###### Also we can group our data more complexity by specific attribute value!
+
+{% highlight ruby %}
+  grouped_data = data.group_by do |row|
+    case row[:sepallength]
+    when (0..4) then :short
+    when (4..6) then :medium
+    when (6..8) then :tall
+    else :error
+    end
+  end
+  # => {:medium=> [#<CSV::Row sepallength:5.1 ...>, ...],
+  #     :tall=> [#<CSV::Row sepallength:7 ...>, ...]}
+{% endhighlight %}
+
+## AGGREGATE FUNCTIONS
+
+###### Select a row with MAX value by attribute
+
+{% highlight ruby %}
+  data.max_by { |row| row[:sepallength] }
+  # => #<CSV::Row sepallength:7.9 sepalwidth:3.8 petallength:6.4 petalwidth:2 variety:"Virginica">
+{% endhighlight %}
+
+###### Select a row with MIN value by attribute
+
+{% highlight ruby %}
+  data.min_by { |row| row[:sepallength] }
+  # => #<CSV::Row sepallength:4.3 sepalwidth:3 petallength:1.1 petalwidth:0.1 variety:"Setosa">
+{% endhighlight %}
+
+###### Also we can get average value in groups of objects
+
+{% highlight ruby %}
+  # Average value in groups
+  grouped_data.transform_values do |rows|
+    rows.sum { |row| row[:sepallength] } / rows.count
+  end
+{% endhighlight %}
+
+## Result
+
+###### As result, we can write sorted/filtered/groupped data to a file for further work/processing
+
+{% highlight ruby %}
+  File.open('result.csv', 'wb') { |file| file.write(data.to_csv) }
+{% endhighlight %}
