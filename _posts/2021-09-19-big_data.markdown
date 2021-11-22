@@ -5,7 +5,7 @@ date:   2021-09-20 21:08:48 +0300
 tags: ['big_data']
 image_name: 'big_data.jpeg'
 ---
-
+# {{page.title}}
 Today we are going to take a look at a very interesting topic 'Big data'. Are you wondering if it is possible to work with big data in Ruby? The answer is that Ruby can do absolutely everything!
 
 Also today we will tell you how to work with big data by using the paradigm of functional programming.
