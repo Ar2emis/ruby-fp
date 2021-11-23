@@ -1,14 +1,11 @@
-RSpec.describe 'AboutPage', type: :feature, js: true do
-    let(:page) { AboutPage.new }
-  
-    before { page.load }
-  
-    it 'text displayed as expected' do
-      
-      expect(page).to have_text('Ruby Functional Programming (RFP) ')
+# frozen_string_literal: true
 
-    end
-  
-   
-   
+RSpec.describe 'AboutPage', type: :feature, js: true do
+  let(:page) { AboutPage.new }
+
+  before { page.load }
+
+  it 'text displayed as expected' do
+    expect(page).to have_text('Ruby Functional Programming (RFP) ')
   end
+end
