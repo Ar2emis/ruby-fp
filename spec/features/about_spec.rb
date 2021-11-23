@@ -5,7 +5,7 @@ RSpec.describe 'AboutPage', type: :feature, js: true do
 
   before { page.load }
 
-  it 'text displayed as expected' do
-    expect(page).to have_text('Ruby Functional Programming (RFP) ')
+  it 'displays title' do
+    expect(page.title).to have_text('About')
   end
 end
