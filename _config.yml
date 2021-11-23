@@ -19,6 +19,8 @@ pagination:
   sort_field: 'date'
   sort_reverse: true
 
+exclude: ['spec']
+
 plugins:
   - jekyll-feed
   - jekyll-sitemap

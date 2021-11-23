@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'rspec'
+require 'capybara/rspec'
 require 'rack/jekyll'
 require 'rack/test'
 require 'pry'
@@ -14,6 +16,10 @@ RSpec.configure do |config|
   end
 
   config.shared_context_metadata_behavior = :apply_to_host_groups
+
+  jekyll_app = Rack::Jekyll.new(force_build: true)
+  sleep 0.1 while jekyll_app.compiling?
+  Capybara.app = jekyll_app
 end
 
 %w[support/config/*.rb support/pages/*.rb].each do |path|
