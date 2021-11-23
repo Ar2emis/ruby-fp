@@ -1,0 +1,36 @@
+<div class="my-5">
+  {% for post in paginator.posts %}
+    <div class="card bg-dark text-white d-flex mb-4 post mx-auto flex-md-row">
+      <img src="{{ site.baseurl }}/assets/images/posts/{{ post.image_name }}" class="rounded post-img" alt="ruby">
+      <div class="card-body">
+        <h4 class="card-title">{{ post.title }}</h4>
+        <p class="card-text">{{ post.content | strip_html | truncatewords: 35 }}</p>
+        <a href="{{post.url}}" class="btn btn-danger">Read more...</a>
+      </div>
+    </div>
+  {% endfor %}
+
+  <div class="text-center">
+
+      <a href="{{ paginator.previous_page_path | append: '#posts' }}"
+      {% if paginator.previous_page %}
+        class="btn btn-danger"
+      {% else %}
+        class="btn btn-danger disabled"
+      {% endif %}>
+        Previous
+      </a>
+
+    <span class="page_number ">
+      Page: {{ paginator.page }} of {{ paginator.total_pages }}
+    </span>
+    <a href="{{ paginator.next_page_path | append: '#posts' }}"
+      {% if paginator.next_page %}
+        class="btn btn-danger"
+      {% else %}
+        class="btn btn-danger disabled"
+      {% endif %}>
+        Next
+      </a>
+  </div>
+</div>

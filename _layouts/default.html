@@ -1,0 +1,22 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link rel="shortcut icon" type="image/svg" href="{{ site.baseurl }}/assets/favicon.svg">
+    <title>{{ site.project }} | {{ page.title }}</title>
+    <link rel="stylesheet" href="{{ site.baseurl }}/assets/stylesheets/main.css" />
+    {% include cdns.html %}
+    {% include settings.html %}
+    {% feed_meta %}
+    {% seo %}
+    <meta name="google-site-verification" content="eAfce9_sXMmmCXMhQ2WblijpjUnLHcoe4b1n780w5Yw" />
+  </head>
+  <body>
+    {% include header.html %}
+    <main role="main" class="container">
+      {{ content }}
+    </main>
+    {% include footer.html %}
+  </body>
+  {% include scripts.html %}
+</html>

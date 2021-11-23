@@ -1,0 +1,332 @@
+---
+layout: default
+title:  'Ruby language and Mathematic'
+date:   2021-09-19 21:08:48 +0300
+tags: ['math', 'ruby']
+image_name: 'math.jpeg'
+---
+# {{page.title}}
+Ruby it’s a good choice to solve problems with Maths, because you have a huge library of default methods which can help
+you to solve more than 99% of common tasks.
+We decided to show you, why ruby - is a programmer best friend, and our first lesson will be about math.
+
+[Here](https://github.com/Ar2emis/rubyfp-learning/blob/master/math/index.rb) you can find sources of this article 😀
+
+## LETS START WITH BASICS
+
+There are some base ruby math operators which defined in base classes:
+##### 1. Addition − Adds values on either side of the operator.
+{% highlight ruby %}
+  1 + 1 # => 2
+{% endhighlight %}
+##### 2. Subtraction − Subtracts right hand operand from left hand operand.
+{% highlight ruby %}
+  1 - 1 # => 0
+{% endhighlight %}
+##### 3. Multiplication − Multiplies values on either side of the operator.
+{% highlight ruby %}
+  1 * 2 # => 2
+{% endhighlight %}
+##### 4. Division − Divides left hand operand by right hand operand.
+{% highlight ruby %}
+  1 / 2 # => 0
+{% endhighlight %}
+##### 5. Modulus − Divides left hand operand by right hand operand and returns remainder.
+{% highlight ruby %}
+  3 % 2 # => 1
+{% endhighlight %}
+##### 6. Exponent − Performs exponential (power) calculation on operators.
+{% highlight ruby %}
+  2**2 # => 4
+{% endhighlight %}
+
+And now we know how to solve base mathematic exercises with ruby, but it's just a start of our journey!
+But wait, in the real life we are not working with base numbers, and what's next?
+What if we need to calculate the sum of the elements in an array, or worse, even something more complicated ...
+
+## ITERATORS
+
+Yes, this scary word "Iterators" will help us with this.
+So let's figure out what iterators are and why you should love them.
+
+##### 1. Sum
+
+Well, let's try to solve the simplest problem, we just described it earlier, let's calculate the sum of the elements
+in the array:
+
+{% highlight c %}
+  // Real ruby, it's 100% ruby code below
+  for(int i = 0; i<n ; i++){
+    sum+=arr[i];
+  }
+{% endhighlight %}
+
+Ok, that was just a joke, in fact, this is how you could understand the solution in the "very cool" C ++ language
+So how we can solve it in ruby?
+That's an answer
+
+{% highlight ruby %}
+  [1, 2, 3, 4].sum # => 10
+{% endhighlight %}
+
+Looks much simpler, doesn't it? In fact, this is just a small part of what Ruby attracts to itself.
+But let's figure out what is actually going on in more detail.
+
+No wonder I gave you an example of a code in C ++, because looking at it you can understand in detail
+what Ruby does in this simple .sum construction.
+
+The sum method is called on an object of the Array class, where this method is declared. He himself iterates over the
+array, adding up its elements and returning their sum, then we will analyze in more detail what kind of "magic"
+happens "under the hood".
+
+Okay, let's complicate the task a little and calculate the sum of the elements of our array with a different number.
+
+{% highlight ruby %}
+  [1, 2, 3, 4].sum + 2 # => 12
+{% endhighlight %}
+
+Yes, this option is certainly suitable, but perhaps we can somehow decorate our solution and make it more elegant?
+Of course! It's ruby :)
+
+{% highlight ruby %}
+  [1, 2, 3, 4].sum(2) # => 12
+{% endhighlight %}
+
+Now we know that the sum method takes an argument that is responsible for the initial value.
+
+Okay, let's complicate our task a little more and calculate the sum of the negative values ​​of our elements with
+one small condition - without changing the initial data set (agree, few people will be happy
+if they receive a negative salary)
+
+{% highlight ruby %}
+  [1, 2, 3, 4].sum { |number| -number } # => -10
+  # or simply
+  [1, 2, 3, 4].sum(&:-@) # => -10
+{% endhighlight %}
+
+Looks kind of incomprehensible, doesn't it? In fact, everything is simple, any method in Ruby takes a block
+as its last argument (a piece of code that is embedded in the right place). In this block, we announced that
+before summing the elements, you need to take their opposite (Just call 'negative' method).
+
+We can also combine and transfer the initial value and the block
+
+{% highlight ruby %}
+  [1, 2, 3, 4].sum(2) { |number| -number } # => -8
+  # or simply
+  [1, 2, 3, 4].sum(2, &:-@) # => -8
+{% endhighlight %}
+
+We can forever play with the sum method, passing a variety of values ​​into the block, and as a last example,
+I will show how to calculate the sum of the modules of our array. We will also run the block in which we
+will ask the sum method to call abs on each element of the array.
+
+{% highlight ruby %}
+  [1, -2, 3, -4].sum(&:abs) # => -10
+{% endhighlight %}
+
+For those who want to know more about the sum method, welcome to the
+[official documentation](https://ruby-doc.org/core-2.4.0/Enumerable.html#method-i-sum).
+
+##### 2. Inject
+
+OK. We know a lot about summing numbers in an array, but what if we need to multiply them? In this case,
+another ruby ​​method is perfect for us, which we will talk about now.
+
+Here's a simple example of how you can multiply all the elements of an array:
+
+{% highlight ruby %}
+  [1, 2, 3, 4].inject { |product, number| product * number } # => 24
+  # or simply
+  [1, 2, 3, 4].inject(&:*) # => 24
+{% endhighlight %}
+
+As you can see, in the block of this method, there are already 2 arguments product and number,
+the first is the "storage" in which the result of the previous action lies, and in the second, just our iterated value.
+
+Similarly, by analogy with sum, we can set the initial value in parentheses (at the first iteration,
+it will be in the product)
+
+{% highlight ruby %}
+  [1, 2, 3, 4].inject(2) { |product, number| product * number } # => 48
+  # or simply
+  [1, 2, 3, 4].inject(2, &:*) # => 48
+{% endhighlight %}
+
+In general, if you open a "terrible secret", then inject can be used not only to multiply the numbers of the array,
+you can pass any operator into it, which he will use (the sum method just uses inject by passing the + operator)
+
+## CUSTOMS
+
+I think it's enough to analyze what has been implemented in the language itself and it's time to start
+specifically with functional programming.
+
+##### 1. Factorial
+
+Now that we know how to sum and multiply the elements of an array, let's write a function that will calculate
+the factorial of a number.
+
+{% highlight ruby %}
+  def factorial(number)
+    (1..number).inject(1, &:*)
+  end
+{% endhighlight %}
+
+As we can see, the already familiar inject method is launched on all numbers from 1 to the one that we passed to the
+method, after which they are multiplied.
+And now lets use it:
+
+{% highlight ruby %}
+  factorial(0) # => 0
+  factorial(1) # => 1
+  factorial(3) # => 6
+{% endhighlight %}
+
+##### 2. Double Factorial
+
+What about the factorial was simple enough. But what if we see such a construction "2 !!" in the book.
+To do this, we will need to implement the double factorial function in the code.
+And while smart guys write huge unreadable methods in C ++, we will fit our solution into one line again
+
+{% highlight ruby %}
+  def double_factorial(number)
+    ((number.odd? ? 1 : 2)..number).step(2).inject(1, &:*)
+  end
+{% endhighlight %}
+
+
+In order to calculate the double factorial, we first need to determine the parity of the number,
+which is what we did by calling the .odd method? (Even here, ruby ​​is gorgeous and convenient).
+After we have determined the initial value, we take all the numbers up to the desired one and begin
+to iterate over them and multiply among themselves, skipping one element each time.
+
+Time to run our code 😀
+
+{% highlight ruby %}
+  double_factorial(0) # => 1
+  double_factorial(1) # => 1
+  double_factorial(4) # => 8
+  double_factorial(5) # => 15
+{% endhighlight %}
+
+##### 3. Progression
+
+Let's build a progression using our ruby ​​code.
+
+Let's write a function that will take 2 arguments and a block, namely the initial value and a number
+for which we will calculate the progression. In the block itself, we will declare the formula for the step of
+our progression (We took it from a smart book, just trust), and since we do not need to iterate over each object,
+in the block we will declare only a variable that will store the result of previous operations so now we can calculate
+a n member of progression.
+
+{% highlight ruby %}
+  def a_n(a_zero, number, &block)
+    number.times.inject(a_zero, &block)
+  end
+{% endhighlight %}
+
+Make sure we are on the right track again
+
+{% highlight ruby %}
+  a_n(0, 1) { |a_n_minus_one| a_n_minus_one * 2 + 1 } # => 1
+  a_n(0, 5) { |a_n_minus_one| a_n_minus_one * 2 + 1 } # => 31
+{% endhighlight %}
+
+Cool, everything even works as it should (C ++ guys, have you even started iterating over an array?)
+
+now we can still write an arithmetic progression formula simply by making another function in which we call
+the sum method already known to us, and the just written function for calculating the members of the progression
+
+{% highlight ruby %}
+  def progression_sum(a_zero, number, &block)
+    number.times.sum { |index| a_n(a_zero, index.next, &block) }
+  end
+{% endhighlight %}
+
+Another launch of our awesome code:
+
+{% highlight ruby %}
+  progression_sum(0, 2) { |a_n_minus_one| a_n_minus_one * 2 + 1 } # => 4
+  progression_sum(0, 5) { |a_n_minus_one| a_n_minus_one * 2 + 1 } # => 57
+{% endhighlight %}
+
+And so we are at the finish line, it remains only to calculate the geometric progression, but
+for us now this is not a problem either.
+
+Based on the knowledge of mathematics for the 8th grade, we wrote a function for calculating a geometric progression,
+in which we ran the iterator again as many times as we need to count the numbers, and called our favorite inject method,
+which will allow us to multiply each a n member of the progression.
+
+{% highlight ruby %}
+  def progression_product(a_zero, number, &block)
+    number.times.inject(1) { |product, index| product * a_n(a_zero, index.next, &block) }
+  end
+{% endhighlight %}
+
+Let's check that we also wrote it correctly.
+
+{% highlight ruby %}
+  progression_product(0, 2) { |a_n_minus_one| a_n_minus_one * 2 + 1 } # => 3
+  progression_product(0, 5) { |a_n_minus_one| a_n_minus_one * 2 + 1 } # => 9765
+{% endhighlight %}
+
+## ADDITIONS
+
+Finishing the story about mathematics in Ruby, one cannot fail to mention the wonderful
+[Math](https://ruby-doc.org/core-2.6/Math.html) module in which you can
+find everything you need (really everything)
+
+Forgot popular constants? It doesn't matter - ruby ​​will save you.
+{% highlight ruby %}
+  Math::E # => 2.718281828459045
+  Math::PI # => 3.141592653589793
+{% endhighlight %}
+
+Can't count the root? (Are you sure you graduated from high school?)
+{% highlight ruby %}
+  Math.sqrt(4) # => 2.0
+{% endhighlight %}
+
+Can't you count the cubic root? (It was better not to leave after the 9th grade)
+{% highlight ruby %}
+  Math.cbrt(8) # => 2.0
+{% endhighlight %}
+
+Need to calculate exponential function? And there is a solution to this
+{% highlight ruby %}
+  Math.exp(2) # => 7.38905609893065
+{% endhighlight %}
+
+Can't find the logarithm? (Defaulted with base E)
+{% highlight ruby %}
+  Math.log(2, 2) # => 1.0
+{% endhighlight %}
+
+And of course, Ruby has methods for calculating logarithms for all the most popular bases.
+{% highlight ruby %}
+  Math.log10(100) # => 2.0
+  Math.log2(4) # => 2.0
+{% endhighlight %}
+
+And even if you did not learn the Pythagorean theorem at school, then this beautiful language will help you out.
+
+{% highlight ruby %}
+  Math.hypot(3, 4) # => 5.0
+{% endhighlight %}
+
+And of course Ruby will help you calculate all trigonometric bases:
+
+{% highlight ruby %}
+  Math.cos(0) # => 1.0
+  Math.sin(0) # => 0.0
+  Math.tan(0) # => 0.0
+  Math.acos(0) # => 1.5707963267948966
+  Math.asin(1) # => 1.5707963267948966
+{% endhighlight %}
+
+## SUMMARY
+
+As you can understand from this article, Ruby has really solved a lot of problems a long time ago,
+and you just need to use this or that method in time. And oddly enough, even though Ruby is an OOP language,
+it has a lot of methods that are a prime example of functional programming.
+
+Thank you for your attention, now you know a little more about this cool language and functional programming.

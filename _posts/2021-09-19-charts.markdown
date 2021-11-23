@@ -1,0 +1,166 @@
+---
+layout: default
+title:  "Charts with Ruby and Functional Programming"
+date:   2021-09-21 21:08:48 +0300
+tags: ['charts', 'graphs', 'gruff']
+image_name: 'charts.jpeg'
+---
+# {{page.title}}
+Hello again! Today we will talk about a rather important topic in programming, namely, the collection of statistics
+and its output to the user in a convenient form, namely graphics.
+
+To solve this problem, we will again turn to the Ruby language and the paradigm of functional programming.
+
+Just like last time, you can find the sources [here](https://github.com/Ar2emis/rubyfp-learning/tree/master/chart).
+
+## LETS PREPARE TO WORK
+
+###### 1. To display generate our graphs we will use the [gruff](https://github.com/topfunky/gruff) gem
+###### 2. Need to define name of our data file
+
+{% highlight ruby %}
+  FILENAME = 'iris.csv'
+{% endhighlight %}
+
+###### 3. Now we need to define numeric columns which we will use to build charts
+
+{% highlight ruby %}
+  NUMERIC_COLUMNS = %i[sepallength sepalwidth petallength petalwidth].freeze
+{% endhighlight %}
+
+###### 4. Also we need to define method which we will use to create names of our charts
+
+{% highlight ruby %}
+  def chart_path(name)
+    File.join('images', "#{name}.png")
+  end
+{% endhighlight %}
+
+As you can see, this function takes 1 argument, which is responsible for the name of the file, and builds the path
+to the "images" folder
+
+And now that we have everything we need, we are ready to start! 😎
+
+## GROUPING FUNCTION
+
+We need to write a function that will group the elements of our selection by a given attribute, so let's get started
+
+First, let's pull the data from the file using the constant that we declared above
+
+{% highlight ruby %}
+  data = CSV.read(FILENAME, encoding: 'bom|utf-8', headers: true, converters: :numeric,
+                            header_converters: :symbol)
+{% endhighlight %}
+
+We group our objects on the basis of variety using the .group_by method, which in turn takes a block that specifies
+the rule by which the elements will be grouped
+
+{% highlight ruby %}
+  iris_by_variety = data.group_by { |row| row[:variety] }
+{% endhighlight %}
+
+Let's declare our function and set that it accepts a block, after which we add a condition that if the block
+was passed to the function, then on each sample volume, call it through the each iterator
+
+{% highlight ruby %}
+  def iris_by_variety(&block)
+    data = CSV.read(FILENAME, encoding: 'bom|utf-8', headers: true, converters: :numeric,
+                              header_converters: :symbol)
+    iris_by_variety = data.group_by { |row| row[:variety] }
+    block ? iris_by_variety.each { |variety, irises| block[variety, irises] } : iris_by_variety
+  end
+{% endhighlight %}
+
+Actually, our function for grouping elements from a selection is ready, and now we can proceed to plotting graphs
+
+## PLOTTING GRAPHS
+
+##### Sepal length bar by variety
+
+Let's declare auxiliary variables. Let's create a Bar object from our gem, give it a name and a minimum value.
+
+{% highlight ruby %}
+  bar = Gruff::Bar.new(SIZE)
+  bar.minimum_value = 0
+  bar.title = 'Sepal Length Bar'
+{% endhighlight %}
+
+Let's call the previously written function, passing there a block in which, through the map method, we will
+generate a new array of values, which consists of the sepallength column
+
+{% highlight ruby %}
+  iris_by_variety do |variety, irises|
+    lengths = irises.map { |iris| iris[:sepallength] }
+    bar.data(variety, [lengths.min, lengths.sum / lengths.count, lengths.max])
+  end
+{% endhighlight %}
+
+Let's combine our code and write the result to a file, and our first graph is ready.
+
+{% highlight ruby %}
+  bar = Gruff::Bar.new(SIZE)
+  bar.minimum_value = 0
+  bar.title = 'Sepal Length Bar'
+  iris_by_variety do |variety, irises|
+    lengths = irises.map { |iris| iris[:sepallength] }
+    bar.data(variety, [lengths.min, lengths.sum / lengths.count, lengths.max])
+  end
+  bar.write(chart_path(:bar))
+{% endhighlight %}
+
+![bar_image]({{ site.baseurl }}/assets/images/posts/charts/bar.png#post-img)
+
+##### Pie chart by variety
+
+Now we will omit the moments of declaring variables from the gem, because they are the same as when building
+the previous graph. This time we will call iris_by_variety by passing a block with the data necessary to build the
+diagram, namely the number of records.
+
+{% highlight ruby %}
+  pie = Gruff::Pie.new(SIZE)
+  pie.title = 'Variety Count Pie'
+  iris_by_variety do |variety, irises|
+    pie.data(variety, irises.count)
+  end
+  pie.write(chart_path(:pie))
+{% endhighlight %}
+
+Let's see what we got
+
+![bar_image]({{ site.baseurl }}/assets/images/posts/charts/pie.png#post-img)
+
+##### Spider charts for each variety
+
+To build graphs for each characteristic, we modify our initial dataset by selecting the necessary columns from it.
+After selecting the required columns, we run the iterator by characteristics, and get the data for our graphs.
+
+{% highlight ruby %}
+  irises = irises.map { |iris| iris.to_h.slice(*NUMERIC_COLUMNS) }
+  NUMERIC_COLUMNS.each do |property|
+    spider.data(property, irises.map { |iris| iris[property] }.sum / irises.count * 100)
+  end
+{% endhighlight %}
+
+After all this, let's put our code together and write the results to files
+
+{% highlight ruby %}
+  iris_by_variety do |variety, irises|
+    spider = Gruff::Spider.new(SIZE)
+    spider.title_margin = 100
+    spider.bottom_margin = 100
+    spider.title = "#{variety.to_s.capitalize} Properties"
+    irises = irises.map { |iris| iris.to_h.slice(*NUMERIC_COLUMNS) }
+    NUMERIC_COLUMNS.each do |property|
+      spider.data(property, irises.map { |iris| iris[property] }.sum / irises.count * 100)
+    end
+    spider.write(chart_path("#{variety}_spider"))
+  end
+{% endhighlight %}
+
+And here are the graphs that we got.
+
+![bar_image]({{ site.baseurl }}/assets/images/posts/charts/Setosa_spider.png#post-img)
+
+![bar_image]({{ site.baseurl }}/assets/images/posts/charts/Versicolor_spider.png#post-img)
+
+![bar_image]({{ site.baseurl }}/assets/images/posts/charts/Virginica_spider.png#post-img)

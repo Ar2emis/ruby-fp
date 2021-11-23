@@ -1,0 +1,22 @@
+---
+layout: default
+title: Home
+pagination:
+  enabled: true
+---
+
+<div class="text-center mb-5">
+  <div>
+    <img src="{{ site.baseurl }}/assets/images/fx.png" class="ms-auto me-auto w-75" alt="f(ruby)">
+    <h1>Functional Programming + Ruby = Friends!</h1>
+  </div>
+  <div id="posts"></div>
+  <div class="ms-auto me-auto">
+    <p class="">
+      This portal is developed for <b>you</b><br> who wants to learn how to integrate
+      <b>functional paradigm</b> into your OOP routine
+    </p>
+  </div>
+</div>
+
+{% include posts.html %}
