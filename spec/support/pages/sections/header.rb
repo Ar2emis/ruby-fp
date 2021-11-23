@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Header < SitePrism::Section
   element :logo, 'a.navbar-brand'
   element :home_link, 'a.nav-link[href="/"]'

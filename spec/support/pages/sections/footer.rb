@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Footer < SitePrism::Section
   elements :infos, 'span.text-muted'
 

@@ -4,7 +4,7 @@ require 'capybara/rspec'
 require 'webdrivers'
 
 options = Selenium::WebDriver::Chrome::Options.new
-options.add_argument("--window-size=1024,768")
+options.add_argument('--window-size=1024,768')
 options.add_argument('headless')
 
 jekyll_app = Rack::Jekyll.new(force_build: true)
